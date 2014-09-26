@@ -337,7 +337,7 @@ if __name__ == "__main__":
       runCommand = blockStart.GetCommandLine()
       for inputFile in blockStart.inputs:
         if not os.path.exists(inputFile):
-          print("************WARNING: {0} input does not exist".format(blockStart.sourceFile))
+          print("WARNING: {0} input does not exist".format(blockStart.sourceFile))
       print("Running: {0}".format(runCommand))
       try:
         retcode = subprocess.call(runCommand, shell=True)
@@ -347,3 +347,40 @@ if __name__ == "__main__":
           print("Child returned " + str(retcode))
       except OSError as e:
         print("Execution failed for some reason: " + str(e))
+
+    dependencyDictionary = dict()
+    for block in sortedAllCommandBlocks:
+      baseProgramName = block.GetProgBaseName()
+      if not baseProgramName in dependencyDictionary:
+        dependencyDictionary[baseProgramName] = list()
+      # Now we warn if the input or output doesn't exist
+      for outputFile in block.outputs:
+        if not os.path.exists(outputFile):
+          print("WARNING: output {0} of {1} does not exist!".format(outputFile,baseProgramName))
+      for inputFile in block.inputs:
+        if not os.path.exists(inputFile):
+          print("WARNING: input {0} of {1} does not exist!".format(inputFile,baseProgramName))
+      dependencyDictionary[baseProgramName].extend(block.outputs)
+      for inputFile in block.inputs:
+        dependencyDictionary[baseProgramName].append(inputFile)
+
+    mkdir_p(os.path.join(args.SWGuidBaseOutput,'Examples'))
+    outputCMakeDependancies = os.path.join(args.SWGuidBaseOutput,'Examples',"GeneratedDependancies.cmake")
+    outputEPSDirectory = os.path.join(args.SWGuidBaseOutput,'Art','Generated')
+    mkdir_p(os.path.join(args.SWGuidBaseOutput,'Art','Generated'))
+
+    outputCDFile = open(outputCMakeDependancies, 'w')
+    allDependencies = 'set(allEPS-DEPS '
+    for baseName in dependencyDictionary.keys():
+      outstring = 'set("{name}-DEPS" '.format(name=baseName)
+      allDependencies += ' "${'+'{name}-DEPS'.format(name=baseName)+'}" '
+      for output in dependencyDictionary[baseName]:
+        epsOutput = os.path.join(outputEPSDirectory, os.path.basename(output.replace('.png','.eps')))
+        outstring += ' "{epsOutput}"'.format(epsOutput=epsOutput.replace('\\', '/'))
+        outputCDFile.write('CONVERT_INPUT_IMG("{0}" "{1}" "{2}")\n'.format(output.replace('\\', '/'),
+        epsOutput.replace('\\', '/'), ""))
+      outstring += ')\n'
+      outputCDFile.write(outstring)
+    allDependencies += ')\n'
+    outputCDFile.write(allDependencies)
+    outputCDFile.close()
