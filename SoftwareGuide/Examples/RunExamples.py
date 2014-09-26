@@ -14,8 +14,6 @@ from datetime import date, timedelta
 #
 beginCmdLineArgstag = "BeginCommandLineArgs"
 endCmdLineArgstag = "EndCommandLineArgs"
-# beginCmdLineArgstag = "BeginCommandLineArgsTest"
-# endCmdLineArgstag   = "EndCommandLineArgsTest"
 
 def mkdir_p(path):
     """ Safely make a new directory, checking if it already exists"""
@@ -288,7 +286,6 @@ class ITKPathFinder:
             else:
                 #print('##STATUS: Not yet found input {0}'.format(testPath))
                 pass
-        print("WARNING:  MISSING INPUT PATH FOR {0}, Assuming output from another test. Searched in {1}".format(inputBaseName,self.searchDirList))        
         return self.GetOutputPath(inputBaseName)
 
     def GetOutputPath(self, outputBaseName):
@@ -333,86 +330,20 @@ if __name__ == "__main__":
             ## A dictionary indexed by starting line to the command blocks
             allCommandBlocks += ParseOneFile(sourceFile, pathFinder)
 
-    max_depth = 6
-    dependacyDictionary = dict()
-    for depth in range(0, max_depth):  # Only look 6 items deep, then assume failures occured
-        if len(allCommandBlocks) == 0:
-            print("ALL WORK COMPLETED!")
-            break
-        if depth == max_depth - 1:
-            print("FAILED TO COMPLETE ALL PROCESSING.")
-            sys.exit(-1)
-        remainingCommandBlocks = []
-        print("Running depth level {0} with {1} codeblocks".format(depth, len(allCommandBlocks)))
-        for blockstart in allCommandBlocks:
-            baseName=blockstart.GetProgBaseName()
-            if dependacyDictionary.get(baseName) is None:
-                dependacyDictionary[baseName] = list() ## Initialize list
-            dependacyDictionary[baseName].extend(blockstart.GetOutputPaths())
-            for ispng in blockstart.GetInputPaths():
-                if ispng[-4:] == ".png":
-                     dependacyDictionary[baseName].append(ispng)
-
-            if blockstart.DoInputsExists() == False:
-                blockstart.AreOutputsNewer()
-                print(' ' * 80 + "\nJob Not Yet Ready To Run")
-                print(blockstart.inputs)
-                print('*' * 80)
-                remainingCommandBlocks.append(blockstart)
-                runCommand = blockstart.GetCommandLine()
-                continue
-            else:
-                completedAlready = blockstart.AreOutputsNewer()
-                if completedAlready == True:
-                    if blockstart.verbose:
-                        print(' ' * 80 + "\nJob Already Done")
-                        print('-' * 80)
-                elif completedAlready == False:
-                    if blockstart.verbose:
-                        print(' ' * 80 + "\nNeed to run")
-                    blockstart.Print()
-                    runCommand = blockstart.GetCommandLine()
-                    completedSuccessfully = True
-                    try:
-                        retcode = subprocess.call(runCommand, shell=True)
-                        if retcode < 0:
-                            print("Child was terminated by signal " + str(-retcode))
-                            completedSuccessfully = False
-                        else:
-                            print("Child returned " + str(retcode))
-                            completedSuccessfully = True
-                    except OSError as e:
-                        print("Execution failed: " + str(e))
-                        completedSuccessfully = False
-                    if completedSuccessfully == False:
-                        print("ERROR:"*20)
-                        print("Failing to run all tests, This should never happen because all tests outputs must run successfully exists.")
-                        sys.exit(-1)  # This should never happen because you should only run this function once all inputs exists.
-                    print(runCommand)
-                    print('+' * 80 + "\nNeed to run")
-                else:
-                    print("ERROR:  Invalid status given.")
-                    sys.exit(-1)
-
-        mkdir_p(os.path.join(args.SWGuidBaseOutput,'Examples'))
-        outputCMakeDependancies = os.path.join(args.SWGuidBaseOutput,'Examples',"GeneratedDependancies.cmake")
-
-        outputEPSDirectory = os.path.join(args.SWGuidBaseOutput,'Art','Generated')
-        mkdir_p(os.path.join(args.SWGuidBaseOutput,'Art','Generated'))
-
-        outPtr = open(outputCMakeDependancies, 'w')
-        allDependancies = 'set(allEPS-DEPS '
-        for baseName in dependacyDictionary.keys():
-            outstring = 'set("{name}-DEPS" '.format(name=baseName)
-            allDependancies += ' "${'+'{name}-DEPS'.format(name=baseName)+'}" '
-            for output in dependacyDictionary[baseName]:
-               epsOutput = os.path.join(outputEPSDirectory, os.path.basename(output.replace('.png','.eps')))
-               outstring += ' "{epsOutput}"'.format(epsOutput=epsOutput.replace('\\', '/'))
-               outPtr.write('CONVERT_INPUT_IMG("{0}" "{1}" "{2}")\n'.format(output.replace('\\', '/'),
-                   epsOutput.replace('\\', '/'), ""))
-            outstring += ')\n'
-            outPtr.write(outstring)
-        allDependancies += ')\n'
-        outPtr.write(allDependancies)
-        outPtr.close()
-        allCommandBlocks = remainingCommandBlocks
+    import ExampleTopSort
+    test = ExampleTopSort.ExampleTopSort(allCommandBlocks)
+    sortedAllCommandBlocks = test.GetSortedOCBList()
+    for blockStart in sortedAllCommandBlocks:
+      runCommand = blockStart.GetCommandLine()
+      for inputFile in blockStart.inputs:
+        if not os.path.exists(inputFile):
+          print("************WARNING: {0} input does not exist".format(blockStart.sourceFile))
+      print("Running: {0}".format(runCommand))
+      try:
+        retcode = subprocess.call(runCommand, shell=True)
+        if retcode < 0:
+          print("Child was terminated by signal " + str(-retcode))
+        else:
+          print("Child returned " + str(retcode))
+      except OSError as e:
+        print("Execution failed for some reason: " + str(e))
