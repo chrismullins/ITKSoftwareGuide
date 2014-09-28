@@ -362,7 +362,8 @@ if __name__ == "__main__":
           print("WARNING: input {0} of {1} does not exist!".format(inputFile,baseProgramName))
       dependencyDictionary[baseProgramName].extend(block.outputs)
       for inputFile in block.inputs:
-        dependencyDictionary[baseProgramName].append(inputFile)
+          if inputFile[-4:] == ".png":
+            dependencyDictionary[baseProgramName].append(inputFile)
 
     mkdir_p(os.path.join(args.SWGuidBaseOutput,'Examples'))
     outputCMakeDependancies = os.path.join(args.SWGuidBaseOutput,'Examples',"GeneratedDependancies.cmake")
