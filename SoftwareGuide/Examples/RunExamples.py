@@ -341,7 +341,7 @@ class CodeBlockTopSort():
                 print("candidate: {0}".format(candidate.sourceFile))
                 print("  -- inputs: {0}".format(candidate.inputs))
                 print("  -- ouptuts: {0}".format(candidate.outputs))
-            return
+        return
 
     def GetSortedCodeBlockList(self):
         return self.sortedCodeBlocks
@@ -415,7 +415,8 @@ if __name__ == "__main__":
           print("WARNING: input {0} of {1} does not exist!".format(inputFile,baseProgramName))
       dependencyDictionary[baseProgramName].extend(block.outputs)
       for inputFile in block.inputs:
-        dependencyDictionary[baseProgramName].append(inputFile)
+        if inputFile[-4:] == ".png":
+          dependencyDictionary[baseProgramName].append(inputFile)
 
     mkdir_p(os.path.join(args.SWGuidBaseOutput,'Examples'))
     outputCMakeDependancies = os.path.join(args.SWGuidBaseOutput,'Examples',"GeneratedDependancies.cmake")
