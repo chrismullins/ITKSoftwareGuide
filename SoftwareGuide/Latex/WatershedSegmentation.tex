@@ -28,7 +28,7 @@ graphical user interface
 The strategy of watershed segmentation is to treat an image $f$ as a height
 function, i.e.,  the surface formed by graphing $f$ as a function of its
 independent parameters, $\vec{x} \in U$.  The image $f$ is often not the
-original input data, but is derived from that data through some filtering,
+original input data, but is derived from those data through some filtering,
 graded (or fuzzy) feature extraction, or fusion of feature maps from different
 sources.  The assumption is that higher values of $f$ (or $-f$) indicate the
 presence of boundaries in the original data.  Watersheds may therefore be
@@ -50,7 +50,7 @@ descent on the graph of $f$ terminate at the same minimum in $f$.  Thus, there
 are as many segments in an image as there are minima in $f$.  The segment
 boundaries are ``ridges'' \cite{Koenderink1979,Koenderink1993,Eberly1996} in
 the graph of $f$.  In the 1D case ($U \subset \Re$), the watershed boundaries
-are the local maxima of $f$, and the results of the watershed segmentation is
+are the local maxima of $f$, and the results of the watershed segmentation are
 trivial.  For higher-dimensional image domains, the watershed boundaries are
 not simply local phenomena; they depend on the shape of the entire watershed.
 
@@ -82,7 +82,7 @@ from the small regions that lie within an area of interest to the union of
 regions that correspond to the anatomical structure \cite{Yoo1991}.
 
 There are two different algorithms commonly used to implement watersheds:
-top-down and bottom-up.  The top-down, gradient descent strategy was chosen for
+top-down and bottom-up.  The top-down gradient descent strategy was chosen for
 ITK because we want to consider the output of multi-scale differential
 operators, and the $f$ in question will therefore have floating point
 values. The bottom-up strategy starts with seeds at the local minima in the
@@ -105,7 +105,7 @@ smaller filters that modularize the several steps of the algorithm in a
 mini-pipeline.  The segmenter object creates the initial segmentation via
 steepest descent from each pixel to local minima. Shallow background regions
 are removed (flattened) before segmentation using a simple minimum value
-threshold (this helps to minimize oversegmentation of the image).  The
+threshold, which helps minimize oversegmentation of the image.  The
 initial segmentation is passed to a second sub-filter that generates a
 hierarchy of basins to a user-specified maximum watershed depth.  The
 relabeler object at the end of the mini-pipeline uses the hierarchy and the
