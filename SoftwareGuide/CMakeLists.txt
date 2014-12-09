@@ -131,6 +131,8 @@ set(ITK_FLIP_IMG
   LaplacianRecursiveGaussianImageFilterOutput5
   MathematicalMorphologyGrayscaleErosionOutput
   MathematicalMorphologyGrayscaleDilationOutput
+  MathematicalMorphologyBinaryErosionOutput
+  MathematicalMorphologyBinaryDilationOutput
   VotingBinaryHoleFillingImageFilterOutput1
   VotingBinaryHoleFillingImageFilterOutput2
   VotingBinaryHoleFillingImageFilterOutput3
@@ -209,6 +211,16 @@ set(ITK_FLIP_IMG
   ShapedNeighborhoodIterators1b
   ImageAdaptorThresholdingA
   ImageAdaptorThresholdingB
+  ImageRegistration4Output
+  ImageRegistration4CheckerboardBefore
+  ImageRegistration4CheckerboardAfter
+  MultiStageImageRegistration1Output
+  MultiStageImageRegistration1CheckerboardBefore
+  MultiStageImageRegistration1CheckerboardAfter
+  MultiStageImageRegistration2Output
+  MultiStageImageRegistration2CheckerboardBefore
+  MultiStageImageRegistration2CheckerboardAfter
+  ImageRegionIteratorOutput
 )
 # END FLIP_INPUTS LIST
 
