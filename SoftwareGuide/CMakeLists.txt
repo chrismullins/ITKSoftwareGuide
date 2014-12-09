@@ -112,8 +112,10 @@ set(ITK_FLIP_IMG
   ThresholdSegmentationLevelSetImageFilterVentricle
   ThresholdSegmentationLevelSetImageFilterGrayMatter
   BinaryThresholdImageFilterOutput
+  BinaryMedianImageFilterOutput
   SigmoidImageFilterOutput
   GradientMagnitudeImageFilterOutput
+  GradientMagnitudeRecursiveGaussianImageFilterOutput3
   GradientMagnitudeRecursiveGaussianImageFilterOutput5
   DerivativeImageFilterOutput
   MeanImageFilterOutput
@@ -123,6 +125,82 @@ set(ITK_FLIP_IMG
   DiscreteGaussianImageFilterOutput
   BinomialBlurImageFilterOutput
   GradientAnisotropicDiffusionImageFilterOutput
+  ThresholdImageFilterOutputBelow
+  ThresholdImageFilterOutputAbove
+  ThresholdImageFilterOutputOutside
+  LaplacianRecursiveGaussianImageFilterOutput3
+  LaplacianRecursiveGaussianImageFilterOutput5
+  MathematicalMorphologyGrayscaleErosionOutput
+  MathematicalMorphologyGrayscaleDilationOutput
+  VotingBinaryHoleFillingImageFilterOutput1
+  VotingBinaryHoleFillingImageFilterOutput2
+  VotingBinaryHoleFillingImageFilterOutput3
+  VotingBinaryIterativeHoleFillingImageFilterOutput1
+  VotingBinaryIterativeHoleFillingImageFilterOutput2
+  VotingBinaryIterativeHoleFillingImageFilterOutput3
+  SmoothingRecursiveGaussianImageFilterOutput3
+  SmoothingRecursiveGaussianImageFilterOutput5
+  CurvatureAnisotropicDiffusionImageFilterOutput
+  CurvatureFlowImageFilterOutput
+  MinMaxCurvatureFlowImageFilterOutput
+  BilateralImageFilterOutput
+  RGBGradientAnisotropicDiffusionImageFilterOutput
+  RGBCurvatureAnisotropicDiffusionImageFilterOutput
+  ResampleImageFilterOutput1
+  ResampleImageFilterOutput2
+  ResampleImageFilterOutput10
+  ImageRegistration1Output
+  ImageRegistration1DifferenceBefore
+  ImageRegistration1DifferenceAfter
+  ImageRegistration2Output
+  ImageRegistration2CheckerboardBefore
+  ImageRegistration2CheckerboardAfter
+  ImageRegistration5Output
+  ImageRegistration5DifferenceBefore
+  ImageRegistration5DifferenceAfter
+  ImageRegistration5Output2
+  ImageRegistration5DifferenceBefore2
+  ImageRegistration5DifferenceAfter2
+  ImageRegistration6Output
+  ImageRegistration6DifferenceBefore
+  ImageRegistration6DifferenceAfter
+  ImageRegistration7Output
+  ImageRegistration7DifferenceBefore
+  ImageRegistration7DifferenceAfter
+  ImageRegistration8Output
+  ImageRegistration8DifferenceBefore
+  ImageRegistration8DifferenceAfter
+  ImageRegistration9Output
+  ImageRegistration9DifferenceBefore
+  ImageRegistration9DifferenceAfter
+  MultiResImageRegistration1Output
+  MultiResImageRegistration1CheckerboardBefore
+  MultiResImageRegistration1CheckerboardAfter
+  MultiResImageRegistration2Output
+  MultiResImageRegistration2CheckerboardBefore
+  MultiResImageRegistration2CheckerboardAfter
+  ConnectedThresholdOutput1
+  ConnectedThresholdOutput2
+  ConnectedThresholdOutput3
+  FastMarchingImageFilterOutput5
+  FastMarchingImageFilterOutput6
+  FastMarchingImageFilterOutput7
+  FastMarchingImageFilterOutput8
+  ShapeDetectionLevelSetFilterOutput5
+  ShapeDetectionLevelSetFilterOutput6
+  ShapeDetectionLevelSetFilterOutput7
+  ShapeDetectionLevelSetFilterOutput8
+  GeodesicActiveContourImageFilterOutput1
+  GeodesicActiveContourImageFilterOutput2
+  GeodesicActiveContourImageFilterOutput3
+  GeodesicActiveContourImageFilterOutput5
+  GeodesicActiveContourImageFilterOutput6
+  GeodesicActiveContourImageFilterOutput7
+  GeodesicActiveContourImageFilterOutput8
+  CannySegmentationLevelSetImageFilterVentricle1
+  LaplacianSegmentationLevelSetImageFilterVentricle
+  BrainT1Slice_labelled
+  ScalarImageMarkovRandomField1Output
 )
 # END FLIP_INPUTS LIST
 
