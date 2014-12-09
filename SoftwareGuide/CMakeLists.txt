@@ -94,7 +94,6 @@ set(ITK_FLIP_IMG
   ConfidenceConnectedOutput3
   VisibleWomanEyeSlice
   VisibleWomanHeadSlice
-  FatMRISlice
   BinaryImage
   VentricleModel
   FivePoints
@@ -201,6 +200,15 @@ set(ITK_FLIP_IMG
   LaplacianSegmentationLevelSetImageFilterVentricle
   BrainT1Slice_labelled
   ScalarImageMarkovRandomField1Output
+  ImageSliceIteratorWithIndexOutput
+  NeighborhoodIterators1a
+  NeighborhoodIterators4a
+  NeighborhoodIterators4b
+  NeighborhoodIterators4c
+  NeighborhoodIterators4d
+  ShapedNeighborhoodIterators1b
+  ImageAdaptorThresholdingA
+  ImageAdaptorThresholdingB
 )
 # END FLIP_INPUTS LIST
 
