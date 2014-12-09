@@ -228,17 +228,12 @@ set(ITK_FLIP_IMG
 # ImageMagick. This image is an input image. A seperate macro is necessary
 # cause input images do not have any dependecies
 macro(CONVERT_INPUT_IMG SOME_IMG EPS_IMG IMAGEMAGICK_FLAGS)
-  #message("********************************************************************")
-  #message("SOME_IMG: ${SOME_IMG}")
-  #message("EPS_IMG: ${EPS_IMG}")
   get_filename_component(IMG_BASENAME ${SOME_IMG} NAME_WE)
   list(FIND ITK_FLIP_IMG "${IMG_BASENAME}" _index)
   if(${_index} GREATER -1)
     if(NOT "${FLAGS}" MATCHES "-flip")
       set(FLAGS "${FLAGS}-flip")
     endif()
-    message("**************** FOUND ${IMG_BASENAME}")
-    #message("FLAGS: ${FLAGS}")
   endif()
   if( NOT DEFINED ${EPS_IMG}_HAS_CUSTOM_COMMAND)
     add_custom_command(
@@ -248,7 +243,6 @@ macro(CONVERT_INPUT_IMG SOME_IMG EPS_IMG IMAGEMAGICK_FLAGS)
         DEPENDS     ${RUN_EXAMPLES_SCRIPT}
     )
     set(${EPS_IMG}_HAS_CUSTOM_COMMAND 1)
-    message("FLAGS FOR ${SOME_IMG}: ${FLAGS}")
   endif()
   set(FLAGS "")
 endmacro(CONVERT_INPUT_IMG)
